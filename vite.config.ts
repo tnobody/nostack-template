@@ -9,10 +9,18 @@ import * as path from "node:path";
 // https://vite.dev/config/
 export default defineConfig({
     plugins: [
-        TanStackRouterVite({autoCodeSplitting: true}),
+        TanStackRouterVite({
+            routesDirectory: './src/ui/routes/',
+            autoCodeSplitting: true
+        }),
         react(),
         tailwindcss(),
     ],
+    server: {
+        proxy: {
+            '/api': 'http://localhost:2022/',
+        }
+    },
     resolve: {
         alias: {
             "@": path.resolve(__dirname, "./src"),
