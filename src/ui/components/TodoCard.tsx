@@ -42,7 +42,6 @@ export const TodoCard = ({
                         <ToggleGroupItem value="UNDONE">UNDONE</ToggleGroupItem>
                     </ToggleGroup>
                 </CardTitle>
-
             </CardHeader>
             <CardContent className={'px-0'}>
                 <ul className={'flex flex-col gap-4'}>
@@ -52,7 +51,7 @@ export const TodoCard = ({
                     {todos.map((todo, i) => (
                         <>
                             <li className={'px-6 flex gap-4 items-center'}>
-                                <Checkbox checked={todo.done}
+                                <Checkbox checked={Boolean(todo.done)}
                                           onCheckedChange={nextState => onDoneChange({
                                               todo, nextState: !!nextState
                                           })}
