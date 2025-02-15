@@ -11,7 +11,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "auth:generate": "npx @better-auth/cli generate --config=./src/server/auth.ts --output=./src/server/db/auth-schema.ts",
+    "auth:migrate": "npx @better-auth/cli migrate"
   },
   "dependencies": {
     "@libsql/client": "^0.14.0",
@@ -28,6 +30,7 @@
     "better-auth": "^1.1.18",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
+    "connect": "^3.7.0",
     "dotenv": "^16.4.7",
     "drizzle-kit": "^0.30.4",
     "drizzle-orm": "^0.39.3",
@@ -43,6 +46,7 @@
     "@eslint/js": "9.19.0",
     "@tanstack/router-devtools": "1.104.3",
     "@tanstack/router-plugin": "1.104.1",
+    "@types/connect": "^3.4.38",
     "@types/node": "22.13.4",
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
