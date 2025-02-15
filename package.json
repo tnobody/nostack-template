@@ -9,9 +9,12 @@
     "dev:api": "tsx --watch ./src/server/index.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
+    "@libsql/client": "^0.14.0",
     "@radix-ui/react-checkbox": "^1.1.4",
     "@radix-ui/react-separator": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.2",
@@ -23,6 +26,9 @@
     "@trpc/server": "11.0.0-rc.768",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
+    "dotenv": "^16.4.7",
+    "drizzle-kit": "^0.30.4",
+    "drizzle-orm": "^0.39.3",
     "lucide-react": "0.475.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",

@@ -33,8 +33,7 @@ function Index() {
     }
 
     async function handleDoneChange({todo, nextState}: { todo: Todo, nextState: boolean }) {
-        const index = todos.indexOf(todo);
-        await trpc.updateTodo.mutate({index, done: nextState})
+        await trpc.updateTodo.mutate({id: todo.id, done: nextState})
         router.invalidate();
     }
 

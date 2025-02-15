@@ -1,17 +1,12 @@
 import type {CreateHTTPContextOptions} from '@trpc/server/adapters/standalone';
+import {db} from "@/server/db";
+import {todoTable} from '../../db/schema.ts'
 
-export  type Todo = {
-    title: string, done: boolean
-}
-
-const todoRepository: Array<Todo> = [
-    {title: 'Download NoStack Template', done: true},
-    {title: 'Start your Project', done: false},
-]
+export  type Todo = typeof todoTable.$inferSelect
 
 export const createTrpcContext = async (opts: CreateHTTPContextOptions) => {
     return ({
-        todoRepository,
+        db: db,
         ...opts
     })
 }
