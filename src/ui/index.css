@@ -1,8 +1,11 @@
 @import "tailwindcss";
+@import "@radix-ui/colors/teal.css";
+@import "@radix-ui/colors/teal-dark.css";
 
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
+
 
 :root {
   --background: hsl(0 0% 100%);
@@ -60,6 +63,25 @@
 }
 
 @theme inline {
+  /* Radix Colors */
+  --color-background-app: var(--teal-1);
+  --color-background-app-subtle: var(--teal-2);
+
+  --color-background-component: var(--teal-3);
+  --color-background-component-hover: var(--teal-4);
+  --color-background-component-active: var(--teal-5);
+
+  --color-border-subtle-static: var(--teal-6);
+  --color-border-subtle-interactive: var(--teal-7);
+  --color-border-strong: var(--teal-8);
+
+  --color-background-solid-hover: var(--teal-9);
+  --color-background-solid: var(--teal-10);
+
+  --color-text-low-contrast: var(--teal-11);
+  --color-text-high-contrast: var(--teal-12);
+
+  /* ShadCn */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

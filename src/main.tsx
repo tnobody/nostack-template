@@ -6,6 +6,7 @@ import './ui/index.css'
 // Import the generated route tree
 import {routeTree} from './routeTree.gen'
 import {ThemeProvider} from "@/ui/components/ui/theme-provider.tsx";
+import {authClient, AuthContext, trpc, TrpcContext} from "@/ui/link.ts";
 
 // Create a new router instance
 const router = createRouter({routeTree})
@@ -23,9 +24,13 @@ if (!rootElement.innerHTML) {
     const root = ReactDOM.createRoot(rootElement)
     root.render(
         <StrictMode>
-            <ThemeProvider defaultTheme="system" storageKey="user-app-theme">
-                <RouterProvider router={router}/>
-            </ThemeProvider>
+            <AuthContext.Provider value={authClient}>
+                <TrpcContext.Provider value={trpc}>
+                    <ThemeProvider defaultTheme="system" storageKey="user-app-theme">
+                        <RouterProvider router={router}/>
+                    </ThemeProvider>
+                </TrpcContext.Provider>
+            </AuthContext.Provider>
         </StrictMode>,
     )
 }

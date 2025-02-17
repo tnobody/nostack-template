@@ -1,4 +1,4 @@
-import {publicProcedure, router} from './setup/trpc.ts';
+import {protectedProcedure, publicProcedure, router} from './setup/trpc.ts';
 import {z} from "zod";
 import {todoTable} from "@/server/db/schema.ts";
 import {eq} from "drizzle-orm";
@@ -11,12 +11,12 @@ export const appRouter = router({
             const q = input === 'ALL' ? all : all.where(eq(todoTable.done, input === 'DONE' ? 1 : 0))
             return await q.all()
         }),
-    addTodo: publicProcedure
+    addTodo: protectedProcedure
         .input(z.string())
         .mutation(async ({input, ctx: {db}}) => {
             await db.insert(todoTable).values({title: input, done: 0})
         }),
-    updateTodo: publicProcedure
+    updateTodo: protectedProcedure
         .input(z.object({id: z.number(), done: z.boolean()}))
         .mutation(async ({input, ctx: {db}}) => {
             await db.update(todoTable).set({done: input.done ? 1 : 0}).where(eq(todoTable.id, input.id))

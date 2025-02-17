@@ -1,55 +1,46 @@
-import {createFileRoute, useRouter} from '@tanstack/react-router'
-import {trpc} from "@/ui/trpc.tsx";
-import {AppRouter} from "@/server/api";
-import {inferProcedureInput} from "@trpc/server";
-import {Filter, TodoCard} from "@/ui/components/TodoCard.tsx";
-import {Todo} from "@/server/api/setup/context.ts";
-
-type TodoListInput = inferProcedureInput<AppRouter['todoList']>;
+import {createFileRoute} from '@tanstack/react-router'
+import {Card, CardContent} from "@/ui/components/ui/card.tsx";
 
 export const Route = createFileRoute('/')({
-    validateSearch(search) {
-        if ('filter' in search && typeof search.filter === 'string' && ['ALL', 'DONE', 'UNDONE'].includes(search['filter'].toUpperCase())) {
-            return {filter: search.filter as TodoListInput};
-        } else {
-            return {filter: 'ALL' as const};
-        }
-    },
-    loaderDeps: (x) => x.search,
-    loader({deps}) {
-        return trpc.todoList.query(deps.filter)
-    },
-    component: Index,
+    component: RouteComponent,
 })
 
-function Index() {
-    const todos = Route.useLoaderData()
-    const {filter} = Route.useSearch()
-    const router = useRouter();
-    const navigate = Route.useNavigate()
+const colors = ["red", "orange", "amber", "yellow", "lime", "green", "emerald", "teal", "cyan", "sky", "blue", "indigo", "violet", "purple", "fuchsia", "pink", "rose"]
+const tone = ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900", "950"]
 
-    function handleFilterChange(filter: Filter) {
-        navigate({search: {filter}})
-    }
+const Banner = `
+  _   _      ____  _             _    
+ | \\ | | ___/ ___|| |_ __ _  ___| | __
+ |  \\| |/ _ \\___ \\| __/ _\` |/ __| |/ /
+ | |\\  | (_) |__) | || (_| | (__|   < 
+ |_| \\_|\\___/____/ \\__\\__,_|\\___|_|\\_\\
+`.split('\n').filter(l => l !== '').map((l, li) => (
+    <div>{[...l].map((c, ci) => (
+        <span style={{color: `var(--color-${colors[li]}-${tone[Math.ceil(ci / 4)]})`}}>{c === ' ' ? <>&nbsp;</> : c}</span>
+    ))}</div>
+))
 
-    async function handleDoneChange({todo, nextState}: { todo: Todo, nextState: boolean }) {
-        await trpc.updateTodo.mutate({id: todo.id, done: nextState})
-        router.invalidate();
-    }
 
-    async function handleNewTodo(title: string) {
-        await trpc.addTodo.mutate(title)
-        router.invalidate();
-    }
+function RouteComponent() {
 
-    return (
-        <div className="p-2">
-            <TodoCard todos={todos}
-                      filter={filter}
-                      onFilterChange={handleFilterChange}
-                      onDoneChange={handleDoneChange}
-                      onNewTodo={handleNewTodo}
-            />
-        </div>
-    )
+    return <div className="gap-6 flex flex-col items-center ">
+        <header>
+            <h1 className="text-text-low-contrast scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-primary">
+                Welcome to
+            </h1>
+        </header>
+
+        <Card>
+            <CardContent className={'py-6 flex justify-center'}>
+                <div className={'flex flex-col font-mono'}>{}
+                    {Banner}
+                </div>
+            </CardContent>
+        </Card>
+        <p className="text-text-high-contrast">Create a new Project</p>
+
+        <code className="p-4 text-lg relative rounded bg-muted font-mono text-sm font-semibold">
+            npx giget@latest gh:tnobody/nostack
+        </code>
+    </div>
 }
