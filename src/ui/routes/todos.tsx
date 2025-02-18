@@ -4,6 +4,7 @@ import {inferProcedureInput} from "@trpc/server";
 import {Filter, TodoCard} from "@/ui/components/TodoCard.tsx";
 import {Todo} from "@/server/api/setup/context.ts";
 import {trpc} from "@/ui/link.ts";
+import {toast} from "sonner";
 
 type TodoListInput = inferProcedureInput<AppRouter['todoList']>;
 
@@ -28,13 +29,23 @@ function Index() {
     const router = useRouter();
     const navigate = Route.useNavigate()
 
-    function handleFilterChange(filter: Filter) {
-        navigate({search: {filter}})
+    async function handleFilterChange(filter: Filter) {
+        await navigate({search: {filter}})
     }
 
     async function handleDoneChange({todo, nextState}: { todo: Todo, nextState: boolean }) {
-        await trpc.updateTodo.mutate({id: todo.id, done: nextState})
-        router.invalidate();
+        try {
+            await trpc.updateTodo.mutate({id: todo.id, done: nextState})
+            router.invalidate();
+        } catch (error) {
+            toast.error('Unauthorized', {
+                description: 'Login required for this action',
+                action: {
+                    label: 'Sign in',
+                    onClick: () => router.navigate({to: '/signin'})
+                },
+            })
+        }
     }
 
     async function handleNewTodo(title: string) {

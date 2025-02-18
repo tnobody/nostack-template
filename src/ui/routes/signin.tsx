@@ -1,6 +1,7 @@
 import {createFileRoute} from '@tanstack/react-router'
 import {LoginForm} from "@/ui/components/login-form.tsx";
 import {useAuth} from "@/ui/link.ts";
+import {toast} from "sonner";
 
 export const Route = createFileRoute('/signin')({
     component: RouteComponent,
@@ -15,7 +16,7 @@ function RouteComponent() {
         }, {
             onError: (ctx) => {
                 // display the error message
-                alert(ctx.error.message);
+                toast(ctx.error.message);
             },
         })
 

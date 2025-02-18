@@ -4,6 +4,7 @@ import {Separator} from "@/ui/components/ui/separator.tsx";
 import {ModeToggle} from "@/ui/components/ui/mode-toggle.tsx";
 import {useAuth, useSession} from "@/ui/link.ts";
 import {LogInIcon, LogOutIcon} from "lucide-react";
+import {Toaster} from "@/ui/components/ui/sonner.tsx";
 
 export const Route = createRootRoute({
     component: Root
@@ -19,9 +20,9 @@ function Root() {
                     <div className={'font-bold text-green-300'}>NoStack</div>
                 </Link>{' '}
                 {session && (
-                <Link to="/todos" className="[&.active]:font-bold" search={{filter: 'ALL'}}>
-                    Todos
-                </Link>
+                    <Link to="/todos" className="[&.active]:font-bold" search={{filter: 'ALL'}}>
+                        Todos
+                    </Link>
                 )}
                 <Link to="/about" className="[&.active]:font-bold">
                     About
@@ -31,12 +32,12 @@ function Root() {
                 {session ? (
                     <div className="flex gap-2 items-center">
                         <span className="text-muted">{session.user.email}</span>
-                    <button className="cursor-pointer" onClick={() => signOut()}>
-                        <LogOutIcon className={"h-4 w-4"}/>
-                    </button>
+                        <button className="cursor-pointer" onClick={() => signOut()}>
+                            <LogOutIcon className={"h-4 w-4"}/>
+                        </button>
                     </div>
                 ) : (
-                    <Link to="/signin" >
+                    <Link to="/signin">
                         <LogInIcon className={"h-4 w-4"}/>
                     </Link>
                 )}
@@ -46,6 +47,7 @@ function Root() {
         <Separator/>
         <div className="mx-auto container p-6">
             <Outlet/>
+            <Toaster/>
         </div>
         <TanStackRouterDevtools/>
     </>
